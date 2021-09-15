@@ -36,8 +36,10 @@ class Game:
         if choice == "1":
             self.play()
         elif choice == "2":
-            self.P1 = Player("Player 1", "X")
-            self.P2 = Player("Player 2", "O")
+            clear()
+            self.P1 = Player(input("Write player name with 'X': "), "X")
+            clear()
+            self.P2 = Player(input("Write player name with 'O': "), "O")
             self.current_player = self.P1
             self.play()
         elif choice == "3":
