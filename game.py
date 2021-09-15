@@ -14,7 +14,7 @@ class Game:
 
     def reset_game(self) -> None:
         self.board_data = [" " for i in range(9)]
-        self.signs = ['X','O']
+        self.signs = ["X", "O"]
         random.shuffle(self.signs)
 
     def run(self) -> None:
@@ -109,7 +109,7 @@ class Game:
             self.make_turn()
 
     def play(self):
-        self.current_player = self.P1 if self.P1.sign == 'X' else self.P2
+        self.current_player = self.P1 if self.P1.sign == "X" else self.P2
         mapping_data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.print_board(mapping_data)
         input("       Keybind mapping\n\n >> Press 'ENTER' to start << ")
