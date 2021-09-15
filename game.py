@@ -40,12 +40,12 @@ class Game:
         if choice == "1":
             clear()
             self.P1 = Player(input("Write player name: "), self.signs[0])
-            self.P2 = CPU("CPU", self.signs[1],"EASY")
+            self.P2 = CPU("CPU", self.signs[1])
             self.play()
         elif choice == "2":
             clear()
             self.P1 = Player(input("Write player name: "), self.signs[0])
-            self.P2 = CPU("CPU", self.signs[1],"HARD")
+            self.P2 = CPU("CPU", self.signs[1], True)
             self.play()
         elif choice == "3":
             clear()
