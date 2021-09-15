@@ -3,20 +3,21 @@ import os
 import random
 
 from player import Player
+from cpu import CPU
 
 clear = lambda: os.system("cls" if os.name == "nt" else "clear")
 
 
 class Game:
-    def __init__(self):
+    def __init__(self) -> None:
         self.reset_game()
 
-    def reset_game(self):
+    def reset_game(self) -> None:
         self.board_data = [" " for i in range(9)]
         self.signs = ['X','O']
         random.shuffle(self.signs)
 
-    def run(self):
+    def run(self) -> None:
         print(
             """
                 +---------------------------------------------+  
@@ -27,30 +28,38 @@ class Game:
                 |   |_| |_|\___||_|\__,_|\___||_|\___/ \___   |                        
                 |                                             |
                 |                    PRESS                    |
-                |                  1. 1P Mode                 |
-                |                  2. 2P Mode                 |
-                |                  3. Exit                    |
+                |               1. 1P Mode [EASY]             |
+                |               2. 1P Mode [HARD]             |
+                |               3. 2P Mode                    |
+                |               4. Exit                       |
                 |                                             |
                 +---------------------------------------------+"""
         )
 
         choice = readchar.readkey()
         if choice == "1":
+            clear()
+            self.P1 = Player(input("Write player name: "), self.signs[0])
+            self.P2 = CPU("CPU", self.signs[1],"EASY")
             self.play()
         elif choice == "2":
+            clear()
+            self.P1 = Player(input("Write player name: "), self.signs[0])
+            self.P2 = CPU("CPU", self.signs[1],"HARD")
+            self.play()
+        elif choice == "3":
             clear()
             self.P1 = Player(input("Write player 1 name: "), self.signs[0])
             clear()
             self.P2 = Player(input("Write player 2 name: "), self.signs[1])
-            self.current_player = self.P1 if self.P1.sign == 'X' else self.P2
             self.play()
-        elif choice == "3":
+        elif choice == "4":
             return 0
         else:
             clear()
             self.run()
 
-    def print_board(self, board):
+    def print_board(self, board) -> None:
         clear()
         print(
             f"""
@@ -90,7 +99,7 @@ class Game:
 
         return not " " in self.board_data
 
-    def make_turn(self):
+    def make_turn(self) -> None:
         print(f"\nPick place to write an {self.current_player.sign} [1-9]:")
         place_picked = int(readchar.readkey()) - 1
         if self.board_data[place_picked] == " ":
@@ -100,13 +109,17 @@ class Game:
             self.make_turn()
 
     def play(self):
+        self.current_player = self.P1 if self.P1.sign == 'X' else self.P2
         mapping_data = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.print_board(mapping_data)
         input("       Keybind mapping\n\n >> Press 'ENTER' to start << ")
         while (winning_sign := self.check_board()) == False:
-            self.print_board(self.board_data)
-            print(f"        {self.current_player.name} turn.")
-            self.make_turn()
+            if self.current_player.name == "CPU":
+                self.current_player.make_move(self.board_data)
+            else:
+                self.print_board(self.board_data)
+                print(f"        {self.current_player.name} turn.")
+                self.make_turn()
             self.current_player = self.P1 if self.current_player == self.P2 else self.P2
 
         self.print_board(self.board_data)
