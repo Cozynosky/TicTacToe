@@ -9,10 +9,12 @@ clear = lambda: os.system("cls" if os.name == "nt" else "clear")
 
 class Game:
     def __init__(self):
-        self.reset_board()
+        self.reset_game()
 
-    def reset_board(self):
+    def reset_game(self):
         self.board_data = [" " for i in range(9)]
+        self.signs = ['X','O']
+        random.shuffle(self.signs)
 
     def run(self):
         print(
@@ -37,10 +39,10 @@ class Game:
             self.play()
         elif choice == "2":
             clear()
-            self.P1 = Player(input("Write player name with 'X': "), "X")
+            self.P1 = Player(input("Write player 1 name: "), self.signs[0])
             clear()
-            self.P2 = Player(input("Write player name with 'O': "), "O")
-            self.current_player = self.P1
+            self.P2 = Player(input("Write player 2 name: "), self.signs[1])
+            self.current_player = self.P1 if self.P1.sign == 'X' else self.P2
             self.play()
         elif choice == "3":
             return 0
@@ -117,5 +119,5 @@ class Game:
             input(f"""        {winner.name} wins!!\n  Press 'ENTER' to continue.""")
 
         clear()
-        self.reset_board()
+        self.reset_game()
         self.run()
